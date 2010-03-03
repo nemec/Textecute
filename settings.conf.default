@@ -1,0 +1,11 @@
+FROM = 
+IMAP_SERVER = 
+IMAP_PORT = 
+IMAP_USER  = 
+IMAP_PASSWORD = 
+SMTP_SERVER = 
+SMTP_PORT = 
+# The last two default to the same
+# username and password as IMAP
+# SMTP_USER = 
+# SMTP_PASSWORD = 

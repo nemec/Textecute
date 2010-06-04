@@ -5,6 +5,8 @@ Contact: djnemec@gmail.com
 ***WARNING***
 Some commands may enable harmful things to be executed on your computer remotely. If you are unsure about a command, check the documentation or contact its author.
 
+***NOTICE***
+This program has been deprecated in favor of Automaton, which is more extensible. To use the new version, check out a copy from http://github.com/nemec/Automaton and run the Textecute.py script in the same way that you currently do.
 
 Summary:
 This program checks an IMAP email address for emails from a specific address - intended to be a phone's text message address. The body of the email contains a command and optional arguments. For security reasons, commands are not usable unless they are imported in Textecute.py.
@@ -16,15 +18,16 @@ This was created mainly for my own needs, so if you find a way to make any part 
 
 Install Instructions:
 1. Must be able to run python scripts (obviously). Download and install python if you have not already.
-2. Download Textecute.py and command.py (If you're reading this, you probably have already)
-3. Install any necessary dependencies. At the moment Textecute itself does not need any software not provided by python, but the commands you use may need custom python scripts. If it does, there should be a note in the function about it.
-4. To prepare the script, put your credentials into settings.conf (server, user, pass, etc). If settings.conf.default is provided, it contains the proper syntax. Also, make sure you import any function you'd like to use at the top of Textecute.py.
+2. Download Textecute.py and the contents of the 'commands' folder (If you're reading this, you probably have already)
+3. Install any necessary dependencies. At the moment Textecute itself does not need any software not provided by python, but the commands you use may need custom python scripts. If it does, there should be a note in its file.
+4. To prepare the script, put your credentials into settings.conf (server, user, pass, etc). If settings.conf.default is provided, it contains the proper syntax. Also, make sure you import any function you'd like to use at the top of Textecute.py. Any command specific settings should be in cmd-settings.conf
 5. To test if it works, send an email/text from your phone or an email address. (Currently has only been tested on a Sprint phone and a gmail address. If you have success/problems with another method, let me know.)
 6. Run the script by executing "python Textecute.py" or whatever process you use to run python scripts. After a few seconds, if the text you sent has been recieved by the IMAP server, your command should be executed and any output should be printed on the terminal/command prompt that you're running the script in. It has not been extensively debugged, so if you manage to break the script let me know and I'll try to fix it.
 7. If your test run works, schedule it to be run intermittently.
 
 
 Changelog:
+05/29/10 - Moved commands from one file to a 'commands' package. Now each command is in its own file. Refactored code to allow removal of original command.py
 02/23/10 - Settings are now stored in a file, 'settings.conf', to make it easier for me to upload without leaving my passwords behind.
 05/21/09 - The output of commands are now emailed back to the user and a new command has been written - google. It returns the first 160 chars of the first result of your query. Useful for a brief description of a term or phrase, but not much else.
 05/13/09 - First release! Supports executing commands from a specific email address / phone and can shut down the host computer.

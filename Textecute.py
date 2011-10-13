@@ -9,7 +9,9 @@ from email.MIMEMultipart import MIMEMultipart
 from email.MIMEBase import MIMEBase
 from email.MIMEText import MIMEText
 from email import Encoders
-from command import exe, shutdown, google, memo, translate, wiki, mail
+
+# Import any command you wish to use
+from commands import exe, shutdown, google, memo, translate, wiki, mail, scores
 
 # This script reads the inbox of the given IMAP server,
 # checks for mail from the specified email address (in
@@ -83,6 +85,20 @@ for operator in ('IMAP_USER', 'IMAP_PASSWORD'):
     log("Missing necessary credentials to log in.")
     sys.exit()
 
+# Load command settings from a configuration file
+cmd_op={}
+settingsFile = open("/home/dan/prg/py/Textecute/cmd-settings.conf","r")
+settings = settingsFile.readlines()
+for line in settings:
+  if line[0]=='#':
+    continue
+  ix = line.find('=')
+  if ix < 0:
+    log("Cannot read command settings file.")
+    sys.exit()
+  cmd_op[line[0:ix].strip().upper()]=line[ix+1:].strip()
+settingsFile.close()
+
 # Set SMTP authentication to the same as IMAP
 # if none has been provided.
 if not op.has_key('SMTP_USER'):
@@ -113,7 +129,7 @@ for num in data[0].split():
     frm=re.search("[\w.]*@[\w.]*", data[0][1][6:].strip()).group() # Parses the FROM string so that just the email address is used
     if frm == op['FROM']:
         typ, read = server.fetch(num, '(FLAGS)')
-        if read[0].find('\\Seen') == -1:
+        if True:#read[0].find('\\Seen') == -1:
             typ, dat = server.fetch(num, '(BODY[TEXT])')
             body=dat[0][1].strip()
             # This for-loop is a quick hack to ignore
@@ -141,7 +157,7 @@ for num in data[0].split():
             else:
                 # Execute function if provided by command.py
                 if body[0:ix] in locals():
-                    returned = locals()[body[0:ix]](body[ix+1:])
+                    returned = locals()[body[0:ix]].execute(body[ix+1:])
                 else:
                     returned = "Command not found.\nDid you forget to import it?"
             if len(returned) > 160:
